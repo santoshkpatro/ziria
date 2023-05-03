@@ -1,4 +1,5 @@
 from django.db import models
+from django.template.defaultfilters import slugify
 
 from .base import BaseModel
 
@@ -32,3 +33,11 @@ class Product(BaseModel):
 
     def __str__(self) -> str:
         return self.title
+    
+    def save(self, *args, **kwargs) -> None:
+
+        # Check for slug else generate unique slug from title
+        if not self.slug and self._state.adding:
+            self.slug = slugify(self.title)
+
+        return super().save(*args, **kwargs)

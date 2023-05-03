@@ -55,23 +55,23 @@ SIMPLE_JWT = {
     "SLIDING_TOKEN_REFRESH_SERIALIZER": "rest_framework_simplejwt.serializers.TokenRefreshSlidingSerializer",
 }
 
-# Logging
-# LOGGING = {
-#     'version': 1,
-#     'handlers': {
-#         'console': {
-#             'class': 'logging.StreamHandler',
-#         },
-#     },
-#     'loggers': {
-#         'django.db.backends': {
-#             'level': 'DEBUG',
-#         },
-#     },
-#     'root': {
-#         'handlers': ['console'],
-#     }
-# }
+# Logging 
+LOGGING = {
+    'version': 1,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        'django.db.backends': {
+            'level': 'DEBUG',
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+    }
+}
 
 # CORS Setup
 CORS_ALLOW_ALL_ORIGINS = True
