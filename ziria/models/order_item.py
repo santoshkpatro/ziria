@@ -15,7 +15,9 @@ class OrderItem(BaseModel):
     order = models.ForeignKey(
         "Order", on_delete=models.CASCADE, related_name="order_items"
     )
-    item_type = models.CharField(max_length=10 ,choices=ItemType.choices, default=ItemType.PURCHASE)
+    item_type = models.CharField(
+        max_length=10, choices=ItemType.choices, default=ItemType.PURCHASE
+    )
     product = models.ForeignKey(
         "Product",
         on_delete=models.SET_NULL,

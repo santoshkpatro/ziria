@@ -9,6 +9,7 @@ class Order(BaseModel):
         OPEN = ("open", "Open")
         ARCHIVED = ("archived", "Archived")
         CANCELLED = ("cancelled", "Cancelled")
+        DRAFT = ("draft", "Draft")
 
     class PaymentStatus(models.TextChoices):
         PENDING = ("pending", "Pending")

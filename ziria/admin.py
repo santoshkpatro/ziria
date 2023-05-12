@@ -14,6 +14,7 @@ from .models.store import Store
 # from .models.order import Order
 from .models.product import Product
 from .models.product_variant import ProductVariant
+from .models.store_member import StoreMember
 
 
 class UserCreationForm(forms.ModelForm):
@@ -91,15 +92,16 @@ class UserAdmin(BaseUserAdmin):
     filter_horizontal = []
 
 
-# class StoreMemberInline(admin.StackedInline):
-#     model = StoreMember
-#     extra = 1
+class StoreMemberInline(admin.StackedInline):
+    model = StoreMember
+    extra = 1
 
 
 @admin.register(Store)
 class StoreAdmin(admin.ModelAdmin):
     list_display = ("name", "slug", "is_active", "country", "created_at")
-    # inlines = (StoreMemberInline,)
+    prepopulated_fields = {"slug": ("name",)}
+    inlines = (StoreMemberInline,)
 
 
 # class OrderItemInline(admin.StackedInline):

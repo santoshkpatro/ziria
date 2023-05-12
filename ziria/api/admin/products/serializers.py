@@ -5,7 +5,7 @@ from ziria.models.product import Product
 
 class ProductListQuerySerializer(serializers.Serializer):
     status = serializers.ChoiceField(choices=Product.Status.choices, required=False)
-
+    search = serializers.CharField(required=False)
 
 class ProductListSerializer(serializers.ModelSerializer):
     variants_count = serializers.SerializerMethodField()

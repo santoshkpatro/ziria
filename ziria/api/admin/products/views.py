@@ -2,11 +2,13 @@ from rest_framework import status
 from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from django.db.models import Count
-from django.db import DatabaseError
+from django.db import DatabaseError, transaction
 from django.shortcuts import get_object_or_404
+from django.contrib.postgres.search import SearchVector
 
 from ziria.mixins.store import StoreFetchMixin
 from ziria.models.product import Product
+from ziria.models.store import Store
 from ziria.models.product_variant import ProductVariant
 from .serializers import (
     ProductListSerializer,
@@ -23,10 +25,15 @@ class ProductViewSet(StoreFetchMixin, ProductListPagination, ViewSet):
         serializer = ProductCreateSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         new_product_data = serializer.validated_data
+        store: Store = request.current_store
         try:
-            new_product = Product.objects.create(
-                **new_product_data, store=request.current_store
-            )
+            with transaction.atomic():
+                new_product = Product.objects.create(
+                    **new_product_data, store=request.current_store
+                )
+                store.products_count += 1
+                store.save(update_fields=["products_count"])
+            
             new_product_serializer = ProductDetailSerializer(new_product)
             return Response(
                 data=new_product_serializer.data, status=status.HTTP_201_CREATED
@@ -47,8 +54,11 @@ class ProductViewSet(StoreFetchMixin, ProductListPagination, ViewSet):
         # annotate with the count of related product variants,
         # and order by creation date
         products = (
-            Product.objects.filter(store=request.current_store, **queries)
-            .annotate(variants_count=Count("product_variants"))
+            Product.objects.annotate(
+                variants_count=Count("product_variants"),
+                search=SearchVector("title", "slug"),
+            )
+            .filter(store=request.current_store, **queries)
             .order_by("created_at")
         )
 
