@@ -10,6 +10,8 @@ from .order import Order
 from .order_item import OrderItem
 from .discount import Discount
 from .order_discount import OrderDiscount
+from .plugins import Plugin
+from .webhook import Webhook
 
 __all__ = [
     "User",
@@ -24,4 +26,6 @@ __all__ = [
     "OrderItem",
     "Discount",
     "OrderDiscount",
+    "Plugin",
+    "Webhook",
 ]

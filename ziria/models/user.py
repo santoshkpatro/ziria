@@ -79,8 +79,10 @@ class User(BaseModel, AbstractBaseUser):
         # Simplest possible answer: All admins are staff
         return self.is_admin
 
+    @property
     def access_token(self):
         return str(AccessToken.for_user(self))
 
+    @property
     def refresh_token(self):
         return str(RefreshToken.for_user(self))

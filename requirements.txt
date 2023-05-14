@@ -9,3 +9,5 @@ python-dotenv==1.0.0 # https://github.com/theskumar/python-dotenv
 Faker==18.4.0 # https://github.com/joke2k/faker
 django-cors-headers==3.14.0 # https://pypi.org/project/django-cors-headers/
 coverage==7.2.5 # https://github.com/nedbat/coveragepy
+shortuuid==1.0.11 # https://github.com/skorokithakis/shortuuid/
+minio==7.1.14 # https://github.com/minio/minio-py

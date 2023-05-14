@@ -1,6 +1,7 @@
 from rest_framework import status
 from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
 from django.db.models import Count
 from django.db import DatabaseError, transaction
 from django.shortcuts import get_object_or_404
@@ -21,6 +22,8 @@ from .pagination import ProductListPagination
 
 
 class ProductViewSet(StoreFetchMixin, ProductListPagination, ViewSet):
+    permission_classes = [IsAuthenticated]
+
     def create(self, request, *args, **kwargs):
         serializer = ProductCreateSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
